@@ -69,7 +69,10 @@ class Stroke :
 					hyphenFound = True 
 					
 			out.append(k)
-		self.rtfcre = ''.join(out) 
+		out = ''.join(out) 
+		out = out.replace('****','*').replace('***','*').replace('**','*')
+		out = out.replace('SS','S')
+		self.rtfcre = out
 		#print("self.rtfcre:",self.rtfcre)
 
 	def __str__(self):
@@ -205,12 +208,21 @@ class TestTranslationFunctions(unittest.TestCase):
 		self.tBuffer.consume(self.s2)
 		self.assertEqual(["biking"], self.tBuffer.translations)
 
-	def asteriskEquivalence(self):
-		# Raw steno for different permutations of asterisk
-		# keys pressed at once.
-		# List comprehension of permutations?
-		# Turn pseudocode into real code.
-		self.assertEqual((for l in self.asterisks.stenokeys), self.asterisk.stenokeys)
+	def testAsteriskEquivalence(self):
+		fourAsterisksRaw = [0x80, 0x00, 0x0C, 0x30, 0x00, 0x00]
+		threeAsterisksRaw = [0x80, 0x00, 0x08, 0x30, 0x00, 0x00]
+		twoAsterisksRaw = [0x80, 0x00, 0x00, 0x30, 0x00, 0x00]
+		oneAsteriskRaw = [0x80, 0x00, 0x00, 0x10, 0x00, 0x00]
+		fourAsterisksStroke = Stroke(fourAsterisksRaw)
+		threeAsterisksStroke = Stroke(threeAsterisksRaw)
+		twoAsterisksStroke = Stroke(twoAsterisksRaw)
+		oneAsteriskStroke = Stroke(oneAsteriskRaw)
+		self.assertEqual(oneAsteriskStroke.rtfcre,
+				twoAsterisksStroke.rtfcre)
+		self.assertEqual(oneAsteriskStroke.rtfcre,
+				threeAsterisksStroke.rtfcre)
+		self.assertEqual(oneAsteriskStroke.rtfcre,
+				fourAsterisksStroke.rtfcre)
 
 	def leftSEquivalence(self):
 		# Raw steno for both S- keys pressed at once.

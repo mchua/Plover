@@ -69,6 +69,10 @@ class Stroke :
 					hyphenFound = True 
 					
 			out.append(k)
+		out = ''.join(out) 
+		out = out.replace('****','*').replace('***','*').replace('**','*')
+		out = out.replace('SS','S')
+		self.rtfcre = out
 		self.rtfcre = ''.join(out) 
 		#print("self.rtfcre:",self.rtfcre)
 
