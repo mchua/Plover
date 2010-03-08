@@ -1,0 +1,8 @@
+Numbers
+Update dictionary
+Figuring out keyboard emulation
+adfixes
+spaces
+capitalization
+dictionary utilities
+

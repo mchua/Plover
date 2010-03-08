@@ -1,15 +1,12 @@
 from ploverbd import exportDic 
 import unittest
 
-stenChart = ("Fn","#1","#2","#3","#4","#5","#6",
+stenChart = ("Fn","#","#","#","#","#","#",
 	     "S-","S-","T-","K-","P-","W-","H-",
              "R-","A-","O-","*","*","res","res",
              "pwr","*","*","-E","-U","-F","-R",
              "-P","-B","-L","-G","-T","-S","-D",
-             "#7","#8","#9","#10","#11","#12","-Z")
-
-#CORRECTION_STROKE = b'\x80\x00\x10\x00\x00\x00'
-CORRECTION_TRANSLATION = 0
+             "#","#","#","#","#","#","-Z")
 
 class Stroke :
 
@@ -76,6 +73,9 @@ class Stroke :
 		self.rtfcre = ''.join(out) 
 		#print("self.rtfcre:",self.rtfcre)
 
+	def isCorrection(self):
+		return(self.rtfcre == '*')
+
 	def __str__(self):
 		return(' '.join(['%02X' % b for b in self.binary]))		
 
@@ -90,11 +90,9 @@ class Translation :
 
 	def __init__(self, strokes):
 		'''strokes is a list of Stroke objects.'''
-		self.isCorrection = (strokes == CORRECTION_TRANSLATION)
-		if not self.isCorrection:
-			self.strokes = strokes
-			self.rtfcre = "/".join([s.rtfcre for s in self.strokes])
-			self.english = exportDic.get(self.rtfcre, None) 
+		self.strokes = strokes
+		self.rtfcre = "/".join([s.rtfcre for s in self.strokes])
+		self.english = exportDic.get(self.rtfcre, None) 
 
 	def __str__(self):
 		if self.english:
@@ -113,6 +111,8 @@ class TranslationBuffer :
 		self.translations = []
 	
 	def consume(self, stroke):
+		if stroke.isCorrection() and len(self.strokes) > 0:
+			self.strokes.pop()
 		# If buffer is full, discard all strokes of oldest
 		# translation to make room.
 		if len(self.strokes) >= self.maxLength:
@@ -124,7 +124,8 @@ class TranslationBuffer :
 					raise(RuntimeError("Buffers out of sync."))
 
 		# Add new stroke and update buffers.	
-		self.strokes.append(stroke)
+		if not stroke.isCorrection():
+			self.strokes.append(stroke)
 		newTranslations = self.translateStrokes(self.strokes) 
 		#print("self.strokes",self.strokes)
 		
@@ -138,7 +139,7 @@ class TranslationBuffer :
 				# element in self.translations after
 				# the two lists differ.
 				for j in range(i, len(self.translations)):
-					self.emit(Translation(CORRECTION_TRANSLATION))
+					self.emit(self)
 				for j in range(i, len(newTranslations)):
 					self.emit(newTranslations[j])
 				break
@@ -171,6 +172,9 @@ class TranslationBuffer :
 	def emit(self, translation):
 		pass
 
+	def correct(self):
+		pass
+
 def test0():
 	raw0 = [0x80,0x08,0x20,0x01,0x00,0x00]
 	stroke0 = Stroke(raw0)
@@ -194,9 +198,8 @@ def test1():
 		tBuffer.consume(Stroke(x))
 		tranlist = tBuffer.translations
 		#([t.rtfcre for t in tBuffer.translations])	
-		for i in tranlist:
-			print(i)
-
+		print(' '.join(['%s' % w for w in tranlist]))		
+		
 class TestTranslationFunctions(unittest.TestCase):
 	def setUp(self):
 		self.tBuffer = TranslationBuffer(10)
