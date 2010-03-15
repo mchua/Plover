@@ -1,6 +1,4 @@
-Numbers
-Update dictionary
-Figuring out keyboard emulation
+Figure out keyboard emulation
 adfixes
 spaces
 capitalization

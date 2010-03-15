@@ -8,6 +8,17 @@ stenChart = ("Fn","#","#","#","#","#","#",
              "-P","-B","-L","-G","-T","-S","-D",
              "#","#","#","#","#","#","-Z")
 
+stenNumbers = { 'S-':'1-', 
+		'T-': '2-',
+		'P-': '3-',
+		'H-': '4-',
+		'A-': '5-',
+		'O-': '0-',
+		'-F': '-6',
+		'-P': '-7',
+		'-L': '-8',
+		'-T': '-9'}
+
 class Stroke :
 
 	def __init__(self, binary) :
@@ -36,6 +47,14 @@ class Stroke :
 					continue # Ignore the first bit 
 				if (b & (0x80 >> j)):
 					self.stenoKeys.append(stenChart[i*7 + j-1]) 
+		
+		# Converts strokes involving number bar to numbers.  
+		if '#' in self.stenoKeys:
+			for i, e in enumerate(self.stenoKeys):
+				self.stenoKeys[i] = stenNumbers.get(e,e)
+			while '#' in self.stenoKeys:
+				self.stenoKeys.remove('#')
+
 
 		# Takes a list of stenKeys and outputs a string in rtf/cre compatible format.  
 		out = []
@@ -64,11 +83,17 @@ class Stroke :
 					k = k[1:] 
 					out.append("-")
 					hyphenFound = True 
-					
+
 			out.append(k)
+
 		out = ''.join(out) 
 		out = out.replace('****','*').replace('***','*').replace('**','*')
 		out = out.replace('SS','S')
+		if '-' in out:
+			noHyphen = out.replace('-','')
+			if noHyphen.isdigit(): 
+				out = noHyphen
+
 		self.rtfcre = out
 	
 	def isCorrection(self):
