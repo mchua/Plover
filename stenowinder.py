@@ -16,8 +16,8 @@ stenChart = {"a": "S-",
 	     "g": "*",
 	     "y": "*",
 	     "h": "*",
-	     "b": "-E",
-	     "n": "-U",
+	     "n": "-E",
+	     "m": "-U",
 	     "u": "-F",
 	     "j": "-R",
 	     "i": "-P",
@@ -27,7 +27,20 @@ stenChart = {"a": "S-",
 	     "p": "-T",
 	     ";": "-S",
 	     "[": "-D",
-	     "'": "-Z"}
+	     "'": "-Z",
+	     "1": "#",
+	     "2": "#",
+	     "3": "#",
+	     "4": "#",
+	     "5": "#",
+	     "6": "#",
+	     "7": "#",
+	     "8": "#",
+	     "9": "#",
+	     "0": "#",
+	     "-": "#",
+	     "=": "#",}
+
 
 stenOrder = {"S-": 0,
 	     "T-": 1,
@@ -81,12 +94,13 @@ class Stroke :
 		for s in sidewinder: 
 			self.stenoKeys.append(stenChart[s])
 		# Following brilliant line of code thanks to Stavros from #python.
-		self.stenoKeys = sorted(self.stenoKeys, key=lambda x: stenOrder[x])	
 		if '#' in self.stenoKeys:
 			for i, e in enumerate(self.stenoKeys):
 				self.stenoKeys[i] = stenNumbers.get(e,e)
 			while '#' in self.stenoKeys:
 				self.stenoKeys.remove('#')
+
+		self.stenoKeys = sorted(self.stenoKeys, key=lambda x: stenOrder[x])	
 
 		# Takes a list of stenKeys and outputs a string in rtf/cre compatible format.  
 		out = []
@@ -242,18 +256,19 @@ def test0():
 	assert(exportDic["-B"] == "be")
 
 def test1():
-	#import serial
 	tBuffer = TranslationBuffer(10)
 	while True: 
 		swinput = input("Type: ")
 		if swinput == 'quit':
 			sys.exit()
 		x = swinput          
-		tBuffer.consume(Stroke(x))
+		try: 
+			tBuffer.consume(Stroke(x))
+		except KeyError:
+			pass 
 		tranlist = tBuffer.translations
 		([t.rtfcre for t in tBuffer.translations])	
 		print(' '.join(['%s' % w for w in tranlist]))		
-		
 		
 class TestTranslationFunctions(unittest.TestCase):
 	def setUp(self):
@@ -284,7 +299,6 @@ class TestTranslationFunctions(unittest.TestCase):
 		# self.s1 = stenokeys(raw1)
 		# self.s2 = stenokeys(raw2)
 		# self.assertEqual(s1, s2)
-
 
 if __name__ == "__main__":
 	#test0()
