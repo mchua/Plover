@@ -1,8 +1,10 @@
 from ploverbd import exportDic 
 import unittest
 import sys
+# choose either 'dCAT' or 'Eclipse'
+dictType = 'dCAT'
 
-stenChart = {"a": "S-",
+sidewinderStenChart = {"a": "S-",
 	     "q": "S-",
 	     "w": "T-",
 	     "s": "K-",
@@ -83,55 +85,130 @@ stenNumbers = { 'S-':'1-',
 
 
 class Stroke :
-
-	def __init__(self, sidewinder) :
-
+	
+	def __init__(self, sidewinder) : 
 		# Retain the original sidewinder version of the stroke.
 		self.sidewinder = sidewinder 
 
 		# Convert the sidewinder to a list of steno keys.
 		self.stenoKeys = []
 		for s in sidewinder: 
-			self.stenoKeys.append(stenChart[s])
-		# Following brilliant line of code thanks to Stavros from #python.
+			self.stenoKeys.append(sidewinderStenChart[s])
 		if '#' in self.stenoKeys:
 			for i, e in enumerate(self.stenoKeys):
 				self.stenoKeys[i] = stenNumbers.get(e,e)
 			while '#' in self.stenoKeys:
 				self.stenoKeys.remove('#')
 
+		# Following brilliant line of code thanks to Stavros from #python.
 		self.stenoKeys = sorted(self.stenoKeys, key=lambda x: stenOrder[x])	
+
+
 
 		# Takes a list of stenKeys and outputs a string in rtf/cre compatible format.  
 		out = []
 		hyphenFound = False
-		for i in range(len(self.stenoKeys)):
-			k = self.stenoKeys[i]
-			#print("key",k)
-			if k == "A-" or k == "O-":
-				k = k[:-1]
-				hyphenFound = True
+		if dictType == 'dCAT':
+			for i in range(len(self.stenoKeys)):
+				k = self.stenoKeys[i]
+				#print("key",k)
+				
+				if k == "A-":
+					if hyphenFound == True:
+						k = k[:-1]
+						out.append(k)
+					elif hyphenFound == False:
+						k = k[:-1]
+						out.append(k)
+						out.append("-")
+						hyphenFound = True
 
-			elif k == "-E" or k == "-U":
-				k = k[1:]
-				hyphenFound = True
-
-			elif k[0] == "*":
-				hyphenFound = True
-					
-			elif k.endswith("-"):
-				k = k[:-1]
-
-			elif k.startswith("-"):
-				if hyphenFound == True:
-					k = k[1:] 
-				elif hyphenFound == False:
-					k = k[1:] 
+				if k =="O-" and out[-1] == "-": 
+					out.pop()
+					k = k[:-1]
+					out.append(k)
 					out.append("-")
-					hyphenFound = True 
+					hyphenFound = True
+
+
+				if k == "O-":
+					if hyphenFound == True:
+						k = k[:-1]
+						out.append(k)
+					elif hyphenFound == False:
+						k = k[:-1]
+						out.append(k)
+						out.append("-")
+						hyphenFound = True
+
+				if k == "-E":
+					if hyphenFound == True:
+						k = k[1:] 
+						out.append(k)
+					elif hyphenFound == False: 
+						k = k[1:]
+						out.append("-")
+						hyphenFound = True
+						out.append(k)
+
+				if k == "-U":
+					if hyphenFound == True:
+						k = k[1:] 
+						out.append(k)
+					elif hyphenFound == False: 
+						k = k[1:]
+						out.append("-")
+						hyphenFound = True
+						out.append(k) 
+
+				elif k.startswith("-"):
+					if hyphenFound == True:
+						k = k[1:] 
+						out.append(k)
+					elif hyphenFound == False:
+						k = k[1:] 
+						out.append("-")
+						hyphenFound = True 
+						out.append(k)
+				
+				elif k.endswith("-"):
+					k = k[:-1]
+					out.append(k)
+
+			if out[-1] == "-":
+				out.pop()
 					
-			out.append(k)
-		out = ''.join(out) 
+			out = ''.join(out) 
+
+		elif dictType == 'Eclipse':
+			for i in range(len(self.stenoKeys)):
+				k = self.stenoKeys[i]
+				#print("key",k)
+				if k == "A-" or k == "O-":
+					k = k[:-1]
+					hyphenFound = True
+
+				elif k == "-E" or k == "-U":
+					k = k[1:]
+					hyphenFound = True
+
+				elif k[0] == "*":
+					hyphenFound = True
+						
+				elif k.endswith("-"):
+					k = k[:-1]
+
+				elif k.startswith("-"):
+					if hyphenFound == True:
+						k = k[1:] 
+					elif hyphenFound == False:
+						k = k[1:] 
+						out.append("-")
+						hyphenFound = True 
+
+				out.append(k)
+			out = ''.join(out) 
+						
 		out = out.replace('****','*').replace('***','*').replace('**','*')
 		out = out.replace('SS','S')
 		if '-' in out:
@@ -179,14 +256,14 @@ class TranslationBuffer :
 		self.maxLength = maxLength
 		self.strokes = []
 		self.translations = []
-	
+		
 	def consume(self, stroke):
 		if stroke.isCorrection() and len(self.strokes) > 0:
 			self.strokes.pop()
 		# If buffer is full, discard all strokes of oldest
-		# translation to make room.
+		# translation to make room and save the translation to
+		# file.
 		if len(self.strokes) >= self.maxLength:
-			#print("Buffer is full. Discard oldest translation.")
 			forsaken = self.translations.pop(0)	
 			for s0 in forsaken.strokes:
 				s1 = self.strokes.pop(0) 
