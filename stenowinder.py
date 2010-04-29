@@ -2,7 +2,7 @@ from ploverbd import exportDic
 import unittest
 import sys
 # choose either 'dCAT' or 'Eclipse'
-dictType = 'dCAT'
+dictType = 'Eclipse'
 
 sidewinderStenChart = {"a": "S-",
 	     "q": "S-",
