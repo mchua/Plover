@@ -2,7 +2,7 @@ from ploverbd import exportDic
 import unittest
 import sys
 # choose either 'dCAT' or 'Eclipse'
-dictType = 'Eclipse'
+dictType = 'dCAT'
 
 sidewinderStenChart = {"a": "S-",
 	     "q": "S-",
@@ -175,6 +175,10 @@ class Stroke :
 					k = k[:-1]
 					out.append(k)
 
+				elif k == "*":
+					hyphenFound = True
+					out.append(k)
+				
 			if out[-1] == "-":
 				out.pop()
 					
