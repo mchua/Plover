@@ -43,9 +43,10 @@ class KeyEater( Frame ):
 				self.releasedKeys = []
 				self.downKeys = []
 			self.message2.set(' '.join([str(t) for t in self.tBuffer.translations]))	 
-			newTranslation = self.tBuffer.translations[-1]
-			if newTranslation.english: 
-				self.translationFile.write(' ' + self.tBuffer.translations[-1].english)
+			if len(self.tBuffer.translations) > 0:
+				newTranslation = self.tBuffer.translations[-1]
+				if newTranslation.english: 
+					self.translationFile.write(' ' + self.tBuffer.translations[-1].english)
 			self.translationFile.flush()
 			self.downKeys = [] 
 			self.releasedKeys = []

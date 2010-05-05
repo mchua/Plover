@@ -112,26 +112,24 @@ class Stroke :
 			for i in range(len(self.stenoKeys)):
 				k = self.stenoKeys[i]
 				#print("key",k)
+
+				if len(out) == 0 and k == '*':
+					out.append(k)
+				
+				elif k =="*" and out[-1] == "-": 
+					out.pop()
+					out.append(k)
+					out.append("-")
 				
 				if k == "A-":
-					if hyphenFound == True:
-						k = k[:-1]
-						out.append(k)
-					elif hyphenFound == False:
-						k = k[:-1]
-						out.append(k)
-						out.append("-")
-						hyphenFound = True
-
-				elif k =="O-" and out[-1] == "-": 
-					out.pop()
 					k = k[:-1]
 					out.append(k)
 					out.append("-")
 					hyphenFound = True
-				
-				elif k == "*" and out[-1] == "-":
+
+				elif k =="O-" and out[-1] == "-": 
 					out.pop()
+					k = k[:-1]
 					out.append(k)
 					out.append("-")
 					hyphenFound = True
@@ -180,7 +178,10 @@ class Stroke :
 					k = k[:-1]
 					out.append(k)
 
-			if out[-1] == "-":
+				elif k == "*" and len(out) > 0 and out[-1] != '-':
+					out.append(k)
+
+			if len(out) > 0 and out[-1] == "-":
 				out.pop()
 					
 			out = ''.join(out) 
