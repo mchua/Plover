@@ -1,9 +1,9 @@
 from tkinter import *
-import stenowinder
+from stenowinder import Translator
 
 class KeyEater( Frame ):
 	'''For antighosting qwerty keyboard such as Sidewinder X4'''
-	def __init__( self ):
+	def __init__( self, exportDic, dictType ):
 		Frame.__init__( self )
 		self.pack( expand = YES, fill = BOTH )
 		self.master.title( "Plover, The Open Source Steno Program" )
@@ -16,18 +16,20 @@ class KeyEater( Frame ):
 
 		self.message2 = StringVar()
 		self.line2 = Label( self, textvariable = self.message2 )
-		self.message2.set( "Dictionary Format: %s" % stenowinder.dictType )
+		self.message2.set( "Dictionary Format: %s" % dictType )
 		self.line2.pack()
 
 		self.master.bind( "<KeyPress>", self.keyPressed )
 		self.master.bind( "<KeyRelease>", self.keyReleased )
 	
 		# Initialization for steno-specific actions 
-		self.tBuffer = stenowinder.TranslationBuffer(30)
+		self.translator = Translator(30, exportDic, dictType)
 		self.downKeys = [] 
 		self.releasedKeys = []
 		
 		self.translationFile = open("log.txt", "w")
+
+		self.dictType = dictType
 			
 	def keyPressed( self, event ):
 		self.downKeys.append(event.char)
@@ -38,17 +40,15 @@ class KeyEater( Frame ):
 		self.releasedKeys.sort()
 		if self.downKeys == self.releasedKeys:
 			try: 
-				self.tBuffer.consume(stenowinder.Stroke(''.join(self.releasedKeys)))
+				self.translator.translate(self.releasedKeys)
 			except KeyError:
 				self.releasedKeys = []
 				self.downKeys = []
-			self.message2.set(' '.join([str(t) for t in self.tBuffer.translations]))	 
-			if len(self.tBuffer.translations) > 0:
-				newTranslation = self.tBuffer.translations[-1]
+			self.message2.set(self.translator.fullTranslation())	 
+			if self.translator.hasTranslations():
+				newTranslation = self.translator.mostRecentTranslation()
 				if newTranslation.english: 
-					self.translationFile.write(' ' + self.tBuffer.translations[-1].english)
+					self.translationFile.write(' ' + self.translator.mostRecentTranslation().english)
 			self.translationFile.flush()
 			self.downKeys = [] 
 			self.releasedKeys = []
-
-KeyEater().mainloop()

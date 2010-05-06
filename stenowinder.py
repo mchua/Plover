@@ -1,8 +1,5 @@
-from ploverbd import exportDic 
 import unittest
 import sys
-# choose either 'dCAT' or 'Eclipse'
-dictType = 'Eclipse'
 
 sidewinderStenChart = {"a": "S-",
 	     "q": "S-",
@@ -83,10 +80,129 @@ stenNumbers = { 'S-':'1-',
 		'-T': '-9'}
 
 
+class EclipseDictionaryFormat:
+	def formatAsRTFCRE(self, stenoKeys):
+		self.stenoKeys = stenoKeys
+		out = []
+		hyphenFound = False
+		for i in range(len(self.stenoKeys)):
+			k = self.stenoKeys[i]
+			#print("key",k)
+			if k == "A-" or k == "O-":
+				k = k[:-1]
+				hyphenFound = True
+
+			elif k == "-E" or k == "-U":
+				k = k[1:]
+				hyphenFound = True
+
+			elif k[0] == "*":
+				hyphenFound = True
+					
+			elif k.endswith("-"):
+				k = k[:-1]
+
+			elif k.startswith("-"):
+				if hyphenFound == True:
+					k = k[1:] 
+				elif hyphenFound == False:
+					k = k[1:] 
+					out.append("-")
+					hyphenFound = True 
+
+			out.append(k)
+		return ''.join(out) 
+
+class DCATDictionaryFormat:
+	def formatAsRTFCRE(self, stenoKeys):
+		self.stenoKeys = stenoKeys
+		out = []
+		hyphenFound = False
+		for i in range(len(self.stenoKeys)):
+			k = self.stenoKeys[i]
+			#print("key",k)
+
+			if len(out) == 0 and k == '*':
+				out.append(k)
+			
+			elif k =="*" and out[-1] == "-": 
+				out.pop()
+				out.append(k)
+				out.append("-")
+			
+			if k == "A-":
+				k = k[:-1]
+				out.append(k)
+				out.append("-")
+				hyphenFound = True
+
+			elif k =="O-" and out[-1] == "-": 
+				out.pop()
+				k = k[:-1]
+				out.append(k)
+				out.append("-")
+				hyphenFound = True
+			
+			elif k == "O-":
+				if hyphenFound == True:
+					k = k[:-1]
+					out.append(k)
+				elif hyphenFound == False:
+					k = k[:-1]
+					out.append(k)
+					out.append("-")
+					hyphenFound = True
+
+			elif k == "-E":
+				if hyphenFound == True:
+					k = k[1:] 
+					out.append(k)
+				elif hyphenFound == False: 
+					k = k[1:]
+					out.append("-")
+					hyphenFound = True
+					out.append(k)
+
+			elif k == "-U":
+				if hyphenFound == True:
+					k = k[1:] 
+					out.append(k)
+				elif hyphenFound == False: 
+					k = k[1:]
+					out.append("-")
+					hyphenFound = True
+					out.append(k) 
+
+			elif k.startswith("-"):
+				if hyphenFound == True:
+					k = k[1:] 
+					out.append(k)
+				elif hyphenFound == False:
+					k = k[1:] 
+					out.append("-")
+					hyphenFound = True 
+					out.append(k)
+			
+			elif k.endswith("-"):
+				k = k[:-1]
+				out.append(k)
+
+			elif k == "*" and len(out) > 0 and out[-1] != '-':
+				out.append(k)
+
+		if len(out) > 0 and out[-1] == "-":
+			out.pop()
+				
+		return ''.join(out) 
+
 
 class Stroke :
-	
-	def __init__(self, sidewinder) : 
+	def __init__(self, sidewinder, dictType) : 
+		if dictType == 'dCAT':
+			dictionaryFormat = DCATDictionaryFormat()
+		elif dictType == 'Eclipse':
+			dictionaryFormat = EclipseDictionaryFormat()
+
 		# Retain the original sidewinder version of the stroke.
 		self.sidewinder = sidewinder 
 
@@ -103,118 +219,7 @@ class Stroke :
 		# Following brilliant line of code thanks to Stavros from #python.
 		self.stenoKeys = sorted(self.stenoKeys, key=lambda x: stenOrder[x])	
 
-
-
-		# Takes a list of stenKeys and outputs a string in rtf/cre compatible format.  
-		out = []
-		hyphenFound = False
-		if dictType == 'dCAT':
-			for i in range(len(self.stenoKeys)):
-				k = self.stenoKeys[i]
-				#print("key",k)
-
-				if len(out) == 0 and k == '*':
-					out.append(k)
-				
-				elif k =="*" and out[-1] == "-": 
-					out.pop()
-					out.append(k)
-					out.append("-")
-				
-				if k == "A-":
-					k = k[:-1]
-					out.append(k)
-					out.append("-")
-					hyphenFound = True
-
-				elif k =="O-" and out[-1] == "-": 
-					out.pop()
-					k = k[:-1]
-					out.append(k)
-					out.append("-")
-					hyphenFound = True
-				
-				elif k == "O-":
-					if hyphenFound == True:
-						k = k[:-1]
-						out.append(k)
-					elif hyphenFound == False:
-						k = k[:-1]
-						out.append(k)
-						out.append("-")
-						hyphenFound = True
-
-				elif k == "-E":
-					if hyphenFound == True:
-						k = k[1:] 
-						out.append(k)
-					elif hyphenFound == False: 
-						k = k[1:]
-						out.append("-")
-						hyphenFound = True
-						out.append(k)
-
-				elif k == "-U":
-					if hyphenFound == True:
-						k = k[1:] 
-						out.append(k)
-					elif hyphenFound == False: 
-						k = k[1:]
-						out.append("-")
-						hyphenFound = True
-						out.append(k) 
-
-				elif k.startswith("-"):
-					if hyphenFound == True:
-						k = k[1:] 
-						out.append(k)
-					elif hyphenFound == False:
-						k = k[1:] 
-						out.append("-")
-						hyphenFound = True 
-						out.append(k)
-				
-				elif k.endswith("-"):
-					k = k[:-1]
-					out.append(k)
-
-				elif k == "*" and len(out) > 0 and out[-1] != '-':
-					out.append(k)
-
-			if len(out) > 0 and out[-1] == "-":
-				out.pop()
-					
-			out = ''.join(out) 
-
-		elif dictType == 'Eclipse':
-			for i in range(len(self.stenoKeys)):
-				k = self.stenoKeys[i]
-				#print("key",k)
-				if k == "A-" or k == "O-":
-					k = k[:-1]
-					hyphenFound = True
-
-				elif k == "-E" or k == "-U":
-					k = k[1:]
-					hyphenFound = True
-
-				elif k[0] == "*":
-					hyphenFound = True
-						
-				elif k.endswith("-"):
-					k = k[:-1]
-
-				elif k.startswith("-"):
-					if hyphenFound == True:
-						k = k[1:] 
-					elif hyphenFound == False:
-						k = k[1:] 
-						out.append("-")
-						hyphenFound = True 
-
-				out.append(k)
-			out = ''.join(out) 
-						
+		out = dictionaryFormat.formatAsRTFCRE(self.stenoKeys)
 		out = out.replace('****','*').replace('***','*').replace('**','*')
 		out = out.replace('SS','S')
 		if '-' in out:
@@ -241,7 +246,7 @@ class Stroke :
 
 class Translation :
 
-	def __init__(self, strokes):
+	def __init__(self, strokes, exportDic):
 		'''strokes is a list of Stroke objects.'''
 		self.strokes = strokes
 		self.rtfcre = "/".join([s.rtfcre for s in self.strokes])
@@ -258,10 +263,11 @@ class Translation :
 
 class TranslationBuffer :
 
-	def __init__(self, maxLength):
+	def __init__(self, maxLength, exportDic):
 		self.maxLength = maxLength
 		self.strokes = []
 		self.translations = []
+		self.exportDic = exportDic
 		
 	def consume(self, stroke):
 		if stroke.isCorrection() and len(self.strokes) > 0:
@@ -317,10 +323,10 @@ class TranslationBuffer :
 		containing only the first stroke if no English
 		translation exists.'''
 		for i in range(len(strokeList),0,-1):
-			translation = Translation(strokeList[:i])
+			translation = Translation(strokeList[:i], self.exportDic)
 			if translation.english != None:
 				return(translation)
-		return(Translation(strokeList[0:1]))
+		return Translation(strokeList[0:1], self.exportDic) 
 			
 	def emit(self, translation):
 		pass
@@ -328,66 +334,20 @@ class TranslationBuffer :
 	def correct(self):
 		pass
 
-def test0():
-	raw0 = [0x80,0x08,0x20,0x01,0x00,0x00]
-	stroke0 = Stroke(raw0)
-	stroke1 = Stroke(raw0)
-	assert(stroke0 == stroke1)
-	assert(stroke0.sidewinder == stroke1.sidewinder)
-	assert(stroke0.stenoKeys == stroke1.stenoKeys)
-	assert(stroke0.rtfcre == stroke1.rtfcre)
-	assert(exportDic["-B"] == "be")
+class Translator:
+	def __init__(self, maxLength, exportDic, dictType):
+		self.buffer = TranslationBuffer(maxLength, exportDic)
+		self.dictType = dictType
+	
+	def translate(self, releasedKeys):
+		self.buffer.consume(Stroke(''.join(releasedKeys), self.dictType))
+	
+	def fullTranslation(self):
+		return ' '.join([str(t) for t in self.buffer.translations])
 
-def test1():
-	tBuffer = TranslationBuffer(10)
-	while True: 
-		swinput = input("Type: ")
-		if swinput == 'quit':
-			sys.exit()
-		x = swinput          
-		try: 
-			tBuffer.consume(Stroke(x))
-		except KeyError:
-			pass 
-		tranlist = tBuffer.translations
-		([t.rtfcre for t in tBuffer.translations])	
-		print(' '.join(['%s' % w for w in tranlist]))		
-		
-class TestTranslationFunctions(unittest.TestCase):
-	def setUp(self):
-		self.tBuffer = TranslationBuffer(10)
-		raw = [0x80,0x08,0x20,0x01,0x00,0x00]
-		self.s1 = Stroke(raw)
-		self.s2 = Stroke(raw)
+	def hasTranslations(self):
+		return len(self.buffer.translations) > 0
 
-	def testSuffixes(self):
-		self.s1.rtfcre = "PWAOEUBG"
-		self.s2.rtfcre = "-G"
-		self.tBuffer.consume(self.s1)
-		self.tBuffer.consume(self.s2)
-		self.assertEqual(["biking"], self.tBuffer.translations)
-
-	def asteriskEquivalence(self):
-		pass
-		# Raw steno for different permutations of asterisk
-		# keys pressed at once.
-		# List comprehension of permutations?
-		# Turn pseudocode into real code.
-		#self.assertEqual((for l in self.asterisks.stenokeys), self.asterisk.stenokeys)
-
-	def leftSEquivalence(self):
-		pass
-		# Raw steno for both S- keys pressed at once.
-		# Turn pseudocode into real code.
-		# self.s1 = stenokeys(raw1)
-		# self.s2 = stenokeys(raw2)
-		# self.assertEqual(s1, s2)
-
-if __name__ == "__main__":
-	#test0()
-	test1()
-	#unittest.main()
-	# Add more tests
-
-
+	def mostRecentTranslation(self):
+		return self.buffer.translations[-1]
 
