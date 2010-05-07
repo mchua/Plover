@@ -136,7 +136,7 @@ class DCATDictionaryFormat:
 				out.append("-")
 				hyphenFound = True
 
-			elif k =="O-" and out[-1] == "-": 
+			elif len(out) >0 and k =="O-" and out[-1] == "-": 
 				out.pop()
 				k = k[:-1]
 				out.append(k)
