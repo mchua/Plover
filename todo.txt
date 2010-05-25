@@ -1,6 +1,0 @@
-Figure out keyboard emulation
-adfixes
-spaces
-capitalization
-dictionary utilities
-

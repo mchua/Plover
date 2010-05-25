@@ -6,7 +6,7 @@
 
 #{\\*\\cxsystem
 
-#{\\i Total Eclipse} Rev 4.3.0.10 by Advantage Software, Inc.}
+#{\\i Total Eclipse} Rev 4.3.0.10 by Advantage Software, Inc.} 
 
 
 #{\\stylesheet
@@ -368,7 +368,7 @@ exportDic = {'-Z': '{^s}',
 '-P': '{.}',
 
 
-'-PS': '{^s.}',
+'-PS': '{^s.} ',
 
 
 '-PS/TPHR-RB': '{.}',
@@ -623,16 +623,16 @@ exportDic = {'-Z': '{^s}',
 '-FPLT/ALT': '{.}at',
 
 
-'-FPLT/HR-PS': '{.}...  {|}',
+'-FPLT/HR-PS': '{.}... {|}',
 
 
-'-FPLT/PUT/T-S': '{.} But it\'s',
+'-FPLT/PUT/T-S': '{.}But it\'s',
 
 
-'-FPLT/PULT/AEU': '{.} But a',
+'-FPLT/PULT/AEU': '{.}But a',
 
 
-'-FPLT/PWULT': '{.} But',
+'-FPLT/PWULT': '{.}But',
 
 
 '-FPLT/KR-GS': '{.\"}',
@@ -14906,7 +14906,7 @@ exportDic = {'-Z': '{^s}',
 'EFPL/SKEUS': 'emphasis',
 
 
-'EFPLT': '{& E.}',
+'EFPLT': '{& E.} ',
 
 
 'EFPLT/P-FPLT/AFPLT': 'E.P.A.',
@@ -25586,7 +25586,7 @@ exportDic = {'-Z': '{^s}',
 'EUFPL': '{^ism}',
 
 
-'EUFPLT': '{& I.}',
+'EUFPLT': '{& I.} ',
 
 
 'EUFPLT/TK-FPLT': 'I.D.',
@@ -25925,7 +25925,7 @@ exportDic = {'-Z': '{^s}',
 '*UFS': 'United States',
 
 
-'*UFPLT': '{& U.}',
+'*UFPLT': '{& U.} ',
 
 
 '*UFPBD': 'under',
@@ -26639,7 +26639,7 @@ exportDic = {'-Z': '{^s}',
 '*EFPL/SAOES': 'emphases',
 
 
-'*EFPLT': '{& E.}',
+'*EFPLT': '{& E.} ',
 
 
 '*EFPB': 'even',
@@ -27068,7 +27068,7 @@ exportDic = {'-Z': '{^s}',
 '*EUFPL/KAEUGS': 'implication',
 
 
-'*EUFPLT': '{& I.}',
+'*EUFPLT': '{& I.} ',
 
 
 '*EUFRB/-S': 'issues',
@@ -33728,7 +33728,7 @@ exportDic = {'-Z': '{^s}',
 'O*FBL': 'obviously',
 
 
-'O*FPLT': '{& O.}',
+'O*FPLT': '{& O.} ',
 
 
 'O*FPB': 'oven',
@@ -73901,7 +73901,7 @@ exportDic = {'-Z': '{^s}',
 'R*FT': 'right foot',
 
 
-'R*FPLT': '{& R.}',
+'R*FPLT': '{& R.} ',
 
 
 'R*FPBD': 'right fender',
@@ -87134,7 +87134,7 @@ exportDic = {'-Z': '{^s}',
 'H*F': '{?}',
 
 
-'H*FPLT': '{& H.}',
+'H*FPLT': '{& H.} ',
 
 
 'H*U': 'huh',
@@ -94439,7 +94439,7 @@ exportDic = {'-Z': '{^s}',
 'HAOER/UPB/TO': 'hereunto',
 
 
-'HAOER/EUFPLT/THEU': 'here {.} I think',
+'HAOER/EUFPLT/THEU': 'here {.}I think',
 
 
 'HAOER/O*F': 'hereof',
@@ -96077,22 +96077,22 @@ exportDic = {'-Z': '{^s}',
 'HR-PZ': '. . .',
 
 
-'HR-PZ/-FPLT/KW-TS': '. . . {.} {\"}',
+'HR-PZ/-FPLT/KW-TS': '. . . {.}{\"}',
 
 
-'HR-PZ/-FPLT/SKW-TS': '. . . {.} {\'}',
+'HR-PZ/-FPLT/SKW-TS': '. . . {.}{\'}',
 
 
-'HR-PZ/-FPLT/SKW-TS/KW-TS': '. . . {.} {\'} {\"}',
+'HR-PZ/-FPLT/SKW-TS/KW-TS': '. . . {.}{\'} {\"}',
 
 
-'HR-PS': '{^...}',
+'HR-PS': '{^...} ',
 
 
-'HR-PS/-FPLT/KW-TS': '... {.} {\"}',
+'HR-PS/-FPLT/KW-TS': '... {.}{\"}',
 
 
-'HR-PS/-FPLT/SKW-TS': '... {.} {\'}',
+'HR-PS/-FPLT/SKW-TS': '... {.}{\'}',
 
 
 'HR-PL': 'almost',
@@ -99950,7 +99950,7 @@ exportDic = {'-Z': '{^s}',
 'HR*FPS': 'lectures',
 
 
-'HR*FPLT': '{& L.}',
+'HR*FPLT': '{& L.} ',
 
 
 'HR*FPLT/A*FPLT': 'Los Angeles',
@@ -109274,7 +109274,7 @@ exportDic = {'-Z': '{^s}',
 'W*F/W*F': 'West Virginia',
 
 
-'W*FPLT': '{& W.}',
+'W*FPLT': '{& W.} ',
 
 
 'W*US/HRER': 'wussler',
@@ -122456,7 +122456,7 @@ exportDic = {'-Z': '{^s}',
 'P*F': '{P s4}',
 
 
-'P*FPLT': '{& P.}',
+'P*FPLT': '{& P.} ',
 
 
 'P*FR': 'perfect',
@@ -150233,7 +150233,7 @@ exportDic = {'-Z': '{^s}',
 'PH*FPL': 'Ms. Foreperson',
 
 
-'PH*FPLT': '{& M.}',
+'PH*FPLT': '{& M.} ',
 
 
 'PH*FPLT/R*FPLT/S*FPLT': 'marginal rate of substitution',
@@ -170354,7 +170354,7 @@ exportDic = {'-Z': '{^s}',
 'PW*RBGS': '{&b}',
 
 
-'PW*FPLT': '{& B.}',
+'PW*FPLT': '{& B.} ',
 
 
 'PW*FPLT/S*FPLT': 'B.S.',
@@ -186272,7 +186272,7 @@ exportDic = {'-Z': '{^s}',
 'K*RBGS': '{&k}',
 
 
-'K*FPLT': '{& K.}',
+'K*FPLT': '{& K.} ',
 
 
 'K*FRS': 'conservation',
@@ -204716,7 +204716,7 @@ exportDic = {'-Z': '{^s}',
 'KR-RBLT/-D': 'contributed',
 
 
-'KR-FPLT/EFPLT': '{~C.E.}',
+'KR-FPLT/EFPLT': '{~C.E.} ',
 
 
 'KR-FPLT/OFPLT/TK-FPLT': 'C.O.D.',
@@ -206372,7 +206372,7 @@ exportDic = {'-Z': '{^s}',
 'KR*FT': '{P s3 {S:>>}}',
 
 
-'KR*FPLT': '{& C.}',
+'KR*FPLT': '{& C.} ',
 
 
 'KR*FPB': 'cellular phone',
@@ -216062,7 +216062,7 @@ exportDic = {'-Z': '{^s}',
 'KW*RBGS': '{&q}',
 
 
-'KW*FPLT': '{& Q.}',
+'KW*FPLT': '{& Q.} ',
 
 
 'KW*UPLS': 'outcomes',
@@ -218609,7 +218609,7 @@ exportDic = {'-Z': '{^s}',
 'KWR*FT': 'Yours very truly {,}',
 
 
-'KWR*FPLT': '{& Y.}',
+'KWR*FPLT': '{& Y.} ',
 
 
 'KWR*U/SAO*U': 'yuzu',
@@ -221636,7 +221636,7 @@ exportDic = {'-Z': '{^s}',
 'KP*RBGS': '{&x}',
 
 
-'KP*FPLT': '{& X.}',
+'KP*FPLT': '{& X.} ',
 
 
 'KP*US': 'anxious',
@@ -228560,7 +228560,7 @@ exportDic = {'-Z': '{^s}',
 'T*FP/-S': 'teaspoons',
 
 
-'T*FPLT': '{& T.}',
+'T*FPLT': '{& T.} ',
 
 
 'T*FPLT/S*FPLT/EL/KWROT': 'T.S. Eliot',
@@ -248462,7 +248462,7 @@ exportDic = {'-Z': '{^s}',
 'TP*RBGS': '{&f}',
 
 
-'TP*FPLT': '{& F.}',
+'TP*FPLT': '{& F.} ',
 
 
 'TP*FPLT/TK*FPLT/A*FPLT': 'F.D.A.',
@@ -261437,10 +261437,10 @@ exportDic = {'-Z': '{^s}',
 'TPH*FP': '{^-inch}',
 
 
-'TPH*FPLT': '{& N.}',
+'TPH*FPLT': '{& N.} ',
 
 
-'TPH*FPLT/O*FPLT': '{& N.}',
+'TPH*FPLT/O*FPLT': '{& N.} ',
 
 
 'TPH*FRGT': 'investigator',
@@ -268271,7 +268271,7 @@ exportDic = {'-Z': '{^s}',
 'TPHR-FRPBL': '{FLUSH}',
 
 
-'TPHR-FRPBLT': '{.} {FLUSH}',
+'TPHR-FRPBLT': '{.}{FLUSH}',
 
 
 'TPHRU': 'flu',
@@ -281051,7 +281051,7 @@ exportDic = {'-Z': '{^s}',
 'TK*FBGS': 'Defendant\'s Exhibit No.#G',
 
 
-'TK*FPLT': '{& D.}',
+'TK*FPLT': '{& D.} ',
 
 
 'TK*FPLT/A*FPLT': 'district attorney',
@@ -292787,7 +292787,7 @@ exportDic = {'-Z': '{^s}',
 'TKPW*FG': 'gonna',
 
 
-'TKPW*FPLT': '{& G.}',
+'TKPW*FPLT': '{& G.} ',
 
 
 'TKPW*US': 'gust',
@@ -311120,7 +311120,7 @@ exportDic = {'-Z': '{^s}',
 'S*FS': 'service',
 
 
-'S*FPLT': '{& S.}',
+'S*FPLT': '{& S.} ',
 
 
 'S*FPLT/O*FPLT/PW*FPLT': 'S.O.B.',
@@ -322517,7 +322517,7 @@ exportDic = {'-Z': '{^s}',
 'SAO*EFPL': 'simply',
 
 
-'SAO*EFPLT': '{& Z.}',
+'SAO*EFPLT': '{& Z.} ',
 
 
 'SAO*EU': 'psi',
@@ -326132,7 +326132,7 @@ exportDic = {'-Z': '{^s}',
 'SR*RBGS': '{&v}',
 
 
-'SR*FPLT': '{& V.}',
+'SR*FPLT': '{& V.} ',
 
 
 'SR*U': 'have you',
@@ -348347,13 +348347,13 @@ exportDic = {'-Z': '{^s}',
 'SKWR-RBGS': '{^... -| }',
 
 
-'SKWR-RBGS/HRAO*EUBG': '{...}like {,}',
+'SKWR-RBGS/HRAO*EUBG': '{...} like {,}',
 
 
 'SKWR-RBGS/KR*R': 'JCR',
 
 
-'SKWR-RBGS/KWRAO*UPB': '{...}you know,',
+'SKWR-RBGS/KWRAO*UPB': '{...} you know,',
 
 
 'SKWR-RBGS/TP*BG': 'JFK',
@@ -350732,7 +350732,7 @@ exportDic = {'-Z': '{^s}',
 'SKWR*FP': 'Jury Charge',
 
 
-'SKWR*FPLT': '{& J.}',
+'SKWR*FPLT': '{& J.} ',
 
 
 'SKWR*UD': 'Judd',
@@ -361760,7 +361760,7 @@ exportDic = {'-Z': '{^s}',
 'STPH/KW*TS': '{?\"}',
 
 
-'STPH/TPHR-RB/TKRAEG': '{?} {$}(reading) {P s4}',
+'STPH/TPHR-RB/TKRAEG': '{?}{$}(reading) {P s4}',
 
 
 'STPH/TKRAEG': '{?}{P s4 (reading) {$}}',
@@ -361814,7 +361814,7 @@ exportDic = {'-Z': '{^s}',
 'STPH-R': '{M:Left by Word - RT}',
 
 
-'STPH-RB': '{?} {FLUSH}',
+'STPH-RB': '{?}{FLUSH}',
 
 
 'STPH-FPLT': '{:}',
@@ -363119,7 +363119,7 @@ exportDic = {'-Z': '{^s}',
 'STPHAO*EUBG': 'mic {?}',
 
 
-'STPHR-RB': '{?} {FLUSH}',
+'STPHR-RB': '{?}{FLUSH}',
 
 
 'STPHRULT': 'result {?}',
@@ -363911,7 +363911,7 @@ exportDic = {'-Z': '{^s}',
 'STKPWHR-FPLT/SKW-TS': '{!\'}',
 
 
-'STKPWHR-FPLT/SKW-TS/KW-TS': '{!} {\'} {\"}',
+'STKPWHR-FPLT/SKW-TS/KW-TS': '{!}{\'} {\"}',
 
 
 'STKPWHR-FPLT/STPH-FPLD': '{!})',

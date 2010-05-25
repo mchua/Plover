@@ -1,5 +1,7 @@
 from tkinter import *
-from stenowinder import Translator
+import sidewinder
+from translation import Translator
+import re
 
 class KeyEater( Frame ):
 	'''For antighosting qwerty keyboard such as Sidewinder X4'''
@@ -23,7 +25,8 @@ class KeyEater( Frame ):
 		self.master.bind( "<KeyRelease>", self.keyReleased )
 	
 		# Initialization for steno-specific actions 
-		self.translator = Translator(30, exportDic, dictType)
+		self.translator = Translator(30, exportDic, dictType, sidewinder.Stroke)
+		self.translator.subscribe(self.emitted)
 		self.downKeys = [] 
 		self.releasedKeys = []
 		
@@ -45,10 +48,23 @@ class KeyEater( Frame ):
 				self.releasedKeys = []
 				self.downKeys = []
 			self.message2.set(self.translator.fullTranslation())	 
-			if self.translator.hasTranslations():
-				newTranslation = self.translator.mostRecentTranslation()
-				if newTranslation.english: 
-					self.translationFile.write(' ' + self.translator.mostRecentTranslation().english)
-			self.translationFile.flush()
 			self.downKeys = [] 
 			self.releasedKeys = []
+
+	def emitted(self, translation) :
+			if translation.isCorrection :
+                                tell = self.translationFile.tell()
+                                if translation.english :
+                                        i = tell - (len(translation.english) + 1)
+                                else :
+                                        i = tell - (len(translation.rtfcre) + 1)
+				# XXX Possibly the seek problem is here? Raise exception?
+                                self.translationFile.seek(i, 0)
+                                self.translationFile.truncate()
+			else :
+				if translation.english :
+					out = translation.english
+				else :
+					out = translation.rtfcre
+				self.translationFile.write(out + ' ')
+			self.translationFile.flush()
