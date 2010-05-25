@@ -7,7 +7,6 @@ class Translation :
 		self.english = rtfcreDict.get(self.rtfcre, None)
 		self.isCorrection = False
 
-	# XXX This needs to be improved.
 	def __eq__(self, other):
 		return(self.rtfcre == other.rtfcre)
 
@@ -51,10 +50,8 @@ class TranslationBuffer :
 		# reconcile them by emitting one or more tokens,
 		# where a token is either a correction or a
 		# translation.
-		neededCorrection = False
 		for i in range(min(len(self.translations), len(newTranslations))):
 			if self.translations[i] != newTranslations[i]:
-				neededCorrection = True
 				# Emit corrections for each remaining
 				# element in self.translations after
 				# the two lists differ.
@@ -63,27 +60,19 @@ class TranslationBuffer :
 					self.emit(t)
 				for t in newTranslations[i:] :
 					self.emit(t)
-				break
-			
-		# A stroke was removed, so delete some translations.
-		if len(self.translations) > len(newTranslations): 
-			if stroke.isCorrection(): 
-				neededCorrection = True
-				for t in self.translations[len(newTranslations):]:
-					t.isCorrection = True
-					self.emit(t)
+				self.translations = newTranslations
+				return
 
-		# New translation is longer than previous translation, but correction stroke was not employed, so emit as usual.
-		elif len(self.translations) > len(newTranslations): 
-			neededCorrection = True
-			for t in self.translations[i:] :
+		# The translation and new translations don't differ
+		# except for one is the same as the other with
+		# additional translations appended.  As such,
+		# translations must be removed or added, depending on
+		# which list is longer.
+		if len(self.translations) > len(newTranslations) :
+			for t in self.translations[len(newTranslations):] :
 				t.isCorrection = True
 				self.emit(t)
-			for t in newTranslations[i:] :
-				self.emit(t)
-
-		# If no correction was needed, then emit only the new translations.
-		if not neededCorrection :
+		else :
 			for t in newTranslations[len(self.translations):] :
 				self.emit(t)
 
