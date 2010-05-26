@@ -1,6 +1,12 @@
 ____To launch Plover____
 
+First, install Python 3.1: http://python.org/download/releases/3.1.2/
+
 **With SideWinder X4**
+
+Required files (must all be in the same directory): translation.py,
+tktest.py, sidewinder_gui.py (or dcsidewinder_gui.py), eclipseDict.py
+(or your dCAT formatted dictionary).
 
 - If you have a steno dictionary exported from Eclipse (like the default
 Plover dictionary on the GitHub), make sure it's named eclipseDict.py,
@@ -11,10 +17,14 @@ format, rename it dCATDict.py and launch dcsidewinder_gui.py.
 
 **With Gemini PR protocol steno machine**
 
+Required files (must all be in the same directory): translation.py,
+serial_gui.py, eclipseDict.py. 
+
 - Open serial_gui.py and search for "self.ser". It should take you to a
 line that reads "self.ser = serial.Serial(7)". Change the number in the
 parentheses to the one that matches your serial port. Make sure you
-have PySerial installed. (http://pyserial.sourceforge.net/) 
+have PySerial installed. (http://pyserial.sourceforge.net/) Then
+launch serial_gui.py.
 
 - If you're using Linux rather than Windows, you may need to toggle the
 capitalization of "tkinter" and "queue" in certain files.
