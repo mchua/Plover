@@ -27,7 +27,7 @@ have PySerial installed. (http://pyserial.sourceforge.net/) Then
 launch serial_gui.py.
 
 - If you're using Linux rather than Windows, you may need to toggle the
-capitalization of "tkinter" and "queue" in certain files.
+capitalization of "tkinter" and "queue" in serial_gui.py.
 
 ____Plover text output____
 
@@ -59,6 +59,9 @@ suffixes and to add doubled consonants where appropriate.
 * Display properly formatted text in GUI.
 
 * Add support for cross-platform editing directly into open OS windows.
+
+* Add a dictionary editor plug-in that lets the user make definitions
+directly from the steno machine. 
 
 --
 Please email bugs to plover@stenoknight.com or post them at
