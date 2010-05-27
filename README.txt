@@ -43,6 +43,8 @@ correctly.
 
 ____To do_____
 
+* Actually make these into tickets.
+
 * Fix the Sidewinder bug that causes freezing when too many keys are
 pressed at one time.
 
